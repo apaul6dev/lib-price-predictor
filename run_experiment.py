@@ -1,47 +1,27 @@
-from vehicle_price_predictor import (
-    Preprocessor,
-    test_model,
-    evaluate,
-    save_model,
-    load_model
-)
-from sklearn.datasets import make_regression
-from sklearn.model_selection import train_test_split
+from core.preprocessing import Preprocessor
 import pandas as pd
 
-# === 1. Preparar datos ===
-print("🔄 Generando datos de ejemplo...")
-X, y = make_regression(n_samples=200, n_features=6, noise=5.0, random_state=42)
-X = pd.DataFrame(X, columns=[f"feature_{i}" for i in range(X.shape[1])])
+def load_data(file_path: str) -> pd.DataFrame:
+    return pd.read_csv(file_path)
 
-# === 2. Preprocesamiento ===
-print("🧼 Preprocesando datos...")
-pre = Preprocessor()
-X_clean = pre.clean_data(X)
-X_scaled = pre.transform(X_clean)
+if __name__ == "__main__":
+    # Cargar datos crudos
+    df = load_data("data/vehicle_data.csv")
 
-# === 3. Train/Test split ===
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+    # Crear instancia del preprocesador
+    prep = Preprocessor()
 
-# === 4. Entrenamiento ===
-print("🎯 Entrenando modelo Random Forest...")
-y_pred = test_model("random_forest", X_train, y_train, X_test, y_test)
+    # Limpiar datos
+    df_clean = prep.clean_data(df)
 
-# === 5. Evaluación ===
-print("📊 Evaluando resultados...")
-metrics = evaluate(y_test, y_pred)
-for metric, value in metrics.items():
-    print(f"{metric}: {value:.4f}")
+    # Separar features y target
+    X, y = prep.split_features_target(df_clean, "price_in_euro")
 
-# === 6. Guardar modelo entrenado ===
-print("💾 Guardando modelo...")
-from vehicle_price_predictor.models.random_forest.model import RandomForestModel
-model = RandomForestModel()
-model.train(X_train, y_train)
-save_model(model, "random_forest_model.pkl")
+    # Escalar características
+    X_scaled = prep.transform(X)
 
-# === 7. Cargar modelo y volver a predecir (opcional) ===
-print("🔁 Cargando modelo y validando predicción...")
-loaded_model = load_model("random_forest_model.pkl")
-new_preds = loaded_model.predict(X_test[:5])
-print("Predicciones nuevas:", new_preds)
+    # Mostrar resultados
+    print("✅ Datos limpios y escalados:")
+    print(X_scaled.head())
+    print("\n🎯 Variable objetivo:")
+    print(y.head())
