@@ -43,7 +43,7 @@ class Preprocessor:
             if col in df.columns:
                 df[col] = df[col].astype(str).str.upper().astype("category")
                 mapping = dict(enumerate(df[col].cat.categories))
-                print((col, mapping))  # Mostrar la tupla (columna, mapeo)
+                #print((col, mapping))  # Mostrar la tupla (columna, mapeo)
                 df[col] = df[col].cat.codes
 
         # 7. Validar y convertir datos numéricos
