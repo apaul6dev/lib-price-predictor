@@ -12,5 +12,9 @@ if __name__ == "__main__":
     # Limpiar datos
     df_clean = prep.clean_data(df)
  
+
+    df_clean.to_csv("datos_limpios_categorizados.csv", index=False)
+
+
     print(df_clean.head(10))
 
