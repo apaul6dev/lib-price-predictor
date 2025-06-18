@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vehicle-price-predictor"
+version = "0.1.0"  # 🔴 ESTA LÍNEA ES OBLIGATORIA
+description = "Librería interna para predicción de precios de vehículos"
+authors = [
+    { name = "Tu Nombre o Empresa", email = "tu.email@ejemplo.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = [
+    "pandas",
+    "scikit-learn",
+    "xgboost",
+    "lightgbm",
+    "catboost",
+    "joblib",
+    "pyyaml"
+]
+
+[tool.setuptools.packages.find]
+include = ["vehicle_price_predictor*"]
