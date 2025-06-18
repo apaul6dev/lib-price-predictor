@@ -37,11 +37,11 @@ class Preprocessor:
             df["reg_month"] = df["registration_date"].dt.month
             df.drop(columns=["registration_date"], inplace=True)
 
-        # 6. Codificación de variables categóricas
+        # 6. Codificación de variables categóricas en mayúsculas
         categorical_cols = ["brand", "model", "color", "transmission_type", "fuel_type"]
         for col in categorical_cols:
             if col in df.columns:
-                df[col] = df[col].astype("category")
+                df[col] = df[col].astype(str).str.upper().astype("category")
                 mapping = dict(enumerate(df[col].cat.categories))
                 print((col, mapping))  # Mostrar la tupla (columna, mapeo)
                 df[col] = df[col].cat.codes
