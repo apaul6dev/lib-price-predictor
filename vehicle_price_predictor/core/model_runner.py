@@ -1,7 +1,7 @@
 import pandas as pd
 import os
-from core.evaluator import evaluate
-from models.dispatcher import MODEL_DISPATCHER
+from vehicle_price_predictor.core.evaluator import evaluate
+from vehicle_price_predictor.models.dispatcher import MODEL_DISPATCHER
 
 def test_model(model_name: str, X_train, y_train, X_test, y_test):
     """

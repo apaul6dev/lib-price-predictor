@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vehicle-price-predictor"
-version = "0.1.0"  # 🔴 ESTA LÍNEA ES OBLIGATORIA
+version = "0.1.0"
 description = "Librería interna para predicción de precios de vehículos"
 authors = [
-    { name = "Tu Nombre o Empresa", email = "tu.email@ejemplo.com" }
+    { name = "Fintech Solutions S.A.", email = "dev@fintechsolutions.com" }
 ]
 readme = "README.md"
 requires-python = ">=3.8"

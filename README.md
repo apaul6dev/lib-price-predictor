@@ -1,5 +1,5 @@
 # Crear entorno virtual si no existe
-python -m venv .venv
+python3 -m venv .venv
 
 # Activarlo en Mac/Linux
 source .venv/bin/activate

@@ -1,7 +1,6 @@
 import lightgbm as lgb
 import pandas as pd
-import numpy as np
-from models.base_model import BaseModel
+from vehicle_price_predictor.models.base_model import BaseModel
 
 
 class LightGBMModel(BaseModel):

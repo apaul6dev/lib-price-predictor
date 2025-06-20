@@ -1,7 +1,7 @@
 import pandas as pd
 
-from core.preprocessing import Preprocessor
-from core.model_runner import run_model
+from vehicle_price_predictor.core.preprocessing import Preprocessor
+from vehicle_price_predictor.core.model_runner import run_model
 
 if __name__ == "__main__":
     try:
