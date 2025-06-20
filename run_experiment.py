@@ -4,6 +4,7 @@ import os
 from core.preprocessing import Preprocessor
 from models.catboost.model import CatBoostModel
 from models.lightgbm.model import LightGBMModel
+from models.random_forest.model import RandomForestModel
 
 
 def run_model(model, model_name: str, X, y, df: pd.DataFrame):
@@ -19,7 +20,8 @@ def run_model(model, model_name: str, X, y, df: pd.DataFrame):
     print(f"📄 Resultados guardados en {output_file}")
 
     # Guardar modelo
-    model_file = f"models_storage/{model_name.lower()}_model.txt"
+    ext = ".cbm" if model_name == "CatBoost" else ".txt" if model_name == "LightGBM" else ".joblib"
+    model_file = f"models_storage/{model_name.lower()}_model{ext}"
     model.save(model_file)
     print(f"📦 Modelo guardado en {model_file}")
 
@@ -29,20 +31,18 @@ def run_model(model, model_name: str, X, y, df: pd.DataFrame):
 
 if __name__ == "__main__":
     try:
-        # Preparar carpetas
         os.makedirs("outputs", exist_ok=True)
         os.makedirs("models_storage", exist_ok=True)
 
-        # Cargar y limpiar datos
         df = pd.read_csv("data/vehicle_data.csv")
         prep = Preprocessor()
         df_clean = prep.clean_data(df)
         X, y = prep.split_features_target(df_clean, "price_in_euro")
 
-        # Ejecutar ambos modelos
         models = [
             ("CatBoost", CatBoostModel(iterations=100, learning_rate=0.1, depth=6)),
             ("LightGBM", LightGBMModel(n_estimators=100, learning_rate=0.1, max_depth=6)),
+            ("RandomForest", RandomForestModel(n_estimators=100, max_depth=8))
         ]
 
         for name, model_instance in models:
