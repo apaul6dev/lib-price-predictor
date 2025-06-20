@@ -23,6 +23,8 @@ tar -tzf dist/vehicle_price_predictor-0.1.0.tar.gz
 
 # Descripción de datos de entrada
 
+/data/vehicle_data.csv
+
 | Columna                    | Tipo            | Descripción                                                               |
 | -------------------------- | --------------- | ------------------------------------------------------------------------- |
 | `Unnamed: 0`               | `int`           | Índice original del dataset. Generalmente no es necesario para el modelo. |
