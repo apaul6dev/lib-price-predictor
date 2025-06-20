@@ -105,5 +105,5 @@ ipython_config.py
 models_storage/
 vehicle_price_predictor.egg-info/
 outputs/
-data/
 catboost_info/
+data/
