@@ -1,8 +1,7 @@
 import pandas as pd
 import os
 
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-
+from core.evaluator import evaluate
 from core.preprocessing import Preprocessor
 from models.catboost.model import CatBoostModel
 from models.lightgbm.model import LightGBMModel
@@ -34,17 +33,10 @@ def run_model(model, model_name: str, X, y, df: pd.DataFrame) -> dict:
     model.save(model_file)
     print(f"📦 Modelo guardado en {model_file}")
 
-    # Calcular métricas
-    mae = mean_absolute_error(y, predictions)
-    mse = mean_squared_error(y, predictions)
-    r2 = r2_score(y, predictions)
-
-    return {
-        "model": model_name,
-        "MAE": mae,
-        "MSE": mse,
-        "R2": r2
-    }
+    # Calcular métricas con función externa
+    metrics = evaluate(y, predictions)
+    metrics["model"] = model_name
+    return metrics
 
 
 if __name__ == "__main__":
