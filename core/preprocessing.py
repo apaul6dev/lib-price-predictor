@@ -12,9 +12,8 @@ class Preprocessor:
         # 1. Eliminar columnas irrelevantes
         df.drop(columns=["Unnamed: 0", "offer_description"], inplace=True, errors="ignore")
 
-        # 2. Reemplazar valores no válidos con NA y eliminar filas con nulos
+        # 2. Reemplazar valores no válidos con pd.NA
         df.replace(["-", "", "NaN"], pd.NA, inplace=True)
-        df.dropna(inplace=True)
 
         # 3. Normalizar consumo de combustible (litros/100km)
         if "fuel_consumption_l_100km" in df.columns:
@@ -48,7 +47,7 @@ class Preprocessor:
             if col in df.columns:
                 df[col] = df[col].astype(str).str.upper().astype("category")
                 mapping = dict(enumerate(df[col].cat.categories))
-                # print((col, mapping))  # para depurar si deseas
+                # print((col, mapping))  # Para depurar
                 df[col] = df[col].cat.codes
 
         # 7. Validar y convertir datos numéricos
@@ -63,9 +62,8 @@ class Preprocessor:
         # 8. Eliminar duplicados
         df.drop_duplicates(inplace=True)
 
-        # 9. Eliminar filas donde el target esté vacío (por compatibilidad con entrenamiento)
-        if "price_in_euro" in df.columns:
-            df = df.dropna(subset=["price_in_euro"])
+        # 9. Eliminar *cualquier* fila que contenga NaN
+        df.dropna(inplace=True)
 
         return df
 
