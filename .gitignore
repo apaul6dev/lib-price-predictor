@@ -102,6 +102,7 @@ ipython_config.py
 *~ 
 *.swp
 
-./models_storage/*
-./vehicle_price_predictor.egg-info/*
-./outputs/*
+models_storage/
+vehicle_price_predictor.egg-info/
+outputs/
+catboost_info/
