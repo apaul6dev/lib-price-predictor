@@ -3,15 +3,23 @@ from .core.preprocessing import Preprocessor
 from .core.evaluator import evaluate
 from .core.model_io import save_model, load_model
 
-# Model dispatcher
-from .interface.predictor import test_model, MODEL_DISPATCHER
+# Modelos disponibles
+from .models.catboost.model import CatBoostModel
+from .models.lightgbm.model import LightGBMModel
+from .models.random_forest.model import RandomForestModel
+from .models.xgboost.model import XGBoostModel
 
-# Para permitir importaciones limpias al usar la librería
+# Exportación ordenada
 __all__ = [
+    # Core
     "Preprocessor",
     "evaluate",
     "save_model",
     "load_model",
-    "test_model",
-    "MODEL_DISPATCHER"
+
+    # Modelos
+    "CatBoostModel",
+    "LightGBMModel",
+    "RandomForestModel",
+    "XGBoostModel",
 ]

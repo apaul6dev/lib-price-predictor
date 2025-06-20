@@ -101,3 +101,7 @@ ipython_config.py
 # Editor backups
 *~ 
 *.swp
+
+./models_storage/*
+./vehicle_price_predictor.egg-info/*
+./outputs/*
