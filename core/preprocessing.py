@@ -1,6 +1,11 @@
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
 
 class Preprocessor:
+    def __init__(self):
+        self.scaler = StandardScaler()
+
     def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.copy()
 
@@ -43,7 +48,7 @@ class Preprocessor:
             if col in df.columns:
                 df[col] = df[col].astype(str).str.upper().astype("category")
                 mapping = dict(enumerate(df[col].cat.categories))
-                #print((col, mapping))  # Mostrar la tupla (columna, mapeo)
+                # print((col, mapping))  # para depurar si deseas
                 df[col] = df[col].cat.codes
 
         # 7. Validar y convertir datos numéricos
@@ -58,4 +63,19 @@ class Preprocessor:
         # 8. Eliminar duplicados
         df.drop_duplicates(inplace=True)
 
+        # 9. Eliminar filas donde el target esté vacío (por compatibilidad con entrenamiento)
+        if "price_in_euro" in df.columns:
+            df = df.dropna(subset=["price_in_euro"])
+
         return df
+
+    def split_features_target(self, df: pd.DataFrame, target_column: str):
+        df = df.dropna(subset=[target_column])
+        X = df.drop(columns=[target_column])
+        y = df[target_column]
+        return X, y
+
+    def transform(self, X: pd.DataFrame):
+        # Para modelos como CatBoost no hace falta escalar,
+        # pero dejamos el método por compatibilidad.
+        return X
