@@ -1,6 +1,4 @@
 import os
-
-# Opcionalmente puedes usar joblib o los métodos nativos de cada modelo
 from joblib import dump, load
 
 MODEL_EXTENSION = {
@@ -12,17 +10,12 @@ MODEL_EXTENSION = {
 
 def save_model(model_name: str, model) -> str:
     """
-    Guarda el modelo en disco según su nombre y devuelve el path.
-
-    :param model_name: Nombre del modelo (clave en dispatcher)
-    :param model: Instancia del modelo ya entrenado
-    :return: Ruta del archivo guardado
+    Guarda el modelo en disco y devuelve su path.
     """
     ext = MODEL_EXTENSION.get(model_name, ".model")
     os.makedirs("models_storage", exist_ok=True)
     model_path = os.path.join("models_storage", f"{model_name}_model{ext}")
 
-    # Método save propio o fallback a joblib
     if hasattr(model, "save"):
         model.save(model_path)
     else:
@@ -33,10 +26,7 @@ def save_model(model_name: str, model) -> str:
 
 def load_model(model_name: str):
     """
-    Carga un modelo previamente guardado según su nombre.
-
-    :param model_name: Nombre del modelo
-    :return: Modelo cargado
+    Carga un modelo previamente guardado desde disco.
     """
     ext = MODEL_EXTENSION.get(model_name, ".model")
     model_path = os.path.join("models_storage", f"{model_name}_model{ext}")
@@ -44,11 +34,15 @@ def load_model(model_name: str):
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"No se encontró el modelo en: {model_path}")
 
-    # Método load propio o fallback a joblib
-    if model_name in ["catboost", "xgboost", "lightgbm"]:
-        from vehicle_price_predictor.models.dispatcher import MODEL_DISPATCHER
-        model = MODEL_DISPATCHER[model_name]()
-        model.load(model_path)
-        return model
+    from vehicle_price_predictor.models.dispatcher import MODEL_DISPATCHER
+    model_class = MODEL_DISPATCHER.get(model_name)
+
+    if not model_class:
+        raise ValueError(f"Modelo '{model_name}' no está registrado.")
+
+    model_instance = model_class()
+    if hasattr(model_instance, "load"):
+        model_instance.load(model_path)
+        return model_instance
     else:
         return load(model_path)
