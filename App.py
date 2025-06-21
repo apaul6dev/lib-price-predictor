@@ -5,7 +5,7 @@ if __name__ == "__main__":
     df = pd.read_csv("data/vehicle_data.csv")
 
     train_params = {
-        "model_name": "xgboost", #random_forest, xgboost, lightgbm, catboost
+        "model_name": "catboost", #random_forest, xgboost, lightgbm, catboost
         "test_size": 0.2,
         "random_state": 42,
         "target_column": "price_in_euro"

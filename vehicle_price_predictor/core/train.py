@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 
+from vehicle_price_predictor.core.model_io import save_model
 from vehicle_price_predictor.core.preprocessing import Preprocessor
 from vehicle_price_predictor.models.dispatcher import MODEL_DISPATCHER
 
@@ -40,6 +41,10 @@ def train_model(data: pd.DataFrame, trainParams: dict) -> pd.DataFrame:
     model = model_class()
     model.train(X_train, y_train)
     preds = model.predict(X_test)
+    
+    # Guardar modelo
+    saved_path = save_model(model_name, model)
+    print(f"📦 Modelo guardado en: {saved_path}")
 
     # Matriz de confusión en cuartiles (para regresión)
     y_class = pd.qcut(y_test, q=4, labels=False, duplicates="drop")
