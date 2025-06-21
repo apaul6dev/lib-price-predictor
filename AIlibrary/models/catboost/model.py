@@ -1,17 +1,16 @@
-import lightgbm as lgb
+from catboost import CatBoostRegressor
+from AIlibrary.models.base_model import BaseModel
 import pandas as pd
-from vehicle_price_predictor.models.base_model import BaseModel
 
-
-class LightGBMModel(BaseModel):
+class CatBoostModel(BaseModel):
     def __init__(self, **kwargs):
-        self.model = lgb.LGBMRegressor(**kwargs)
+        self.model = CatBoostRegressor(**kwargs)
         self.is_trained = False
 
     def train(self, X, y):
         if pd.isna(y).any() or pd.isna(X).any().any():
             raise ValueError("❌ Los datos de entrenamiento contienen valores NaN.")
-        self.model.fit(X, y)
+        self.model.fit(X, y, verbose=False)
         self.is_trained = True
 
     def predict(self, X):
@@ -24,8 +23,8 @@ class LightGBMModel(BaseModel):
     def save(self, path):
         if not self.is_trained:
             raise RuntimeError("❌ No puedes guardar un modelo que no ha sido entrenado.")
-        self.model.booster_.save_model(path)
+        self.model.save_model(path)
 
     def load(self, path):
-        self.model = lgb.Booster(model_file=path)
+        self.model.load_model(path)
         self.is_trained = True

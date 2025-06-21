@@ -1,11 +1,10 @@
-import xgboost as xgb
+from sklearn.ensemble import RandomForestRegressor
+from AIlibrary.models.base_model import BaseModel
+import joblib
 import pandas as pd
-from vehicle_price_predictor.models.base_model import BaseModel
-
-
-class XGBoostModel(BaseModel):
+class RandomForestModel(BaseModel):
     def __init__(self, **kwargs):
-        self.model = xgb.XGBRegressor(**kwargs)
+        self.model = RandomForestRegressor(**kwargs)
         self.is_trained = False
 
     def train(self, X, y):
@@ -24,8 +23,8 @@ class XGBoostModel(BaseModel):
     def save(self, path):
         if not self.is_trained:
             raise RuntimeError("❌ No puedes guardar un modelo que no ha sido entrenado.")
-        self.model.save_model(path)
+        joblib.dump(self.model, path)
 
     def load(self, path):
-        self.model.load_model(path)
+        self.model = joblib.load(path)
         self.is_trained = True

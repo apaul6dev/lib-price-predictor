@@ -2,9 +2,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 
-from vehicle_price_predictor.core.model_io import save_model
-from vehicle_price_predictor.core.preprocessing import Preprocessor
-from vehicle_price_predictor.models.dispatcher import MODEL_DISPATCHER
+from AIlibrary.core.model_io import save_model
+from AIlibrary.core.preprocessing import Preprocessor
+from AIlibrary.models.dispatcher import MODEL_DISPATCHER
 
 def train_model(data: pd.DataFrame, trainParams: dict) -> pd.DataFrame:
     """

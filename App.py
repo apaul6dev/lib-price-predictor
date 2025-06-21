@@ -1,13 +1,13 @@
 import pandas as pd
-from vehicle_price_predictor.core.model_tester import test_model
-from vehicle_price_predictor.core.train import train_model
-from vehicle_price_predictor.core.model_io import load_model
+from AIlibrary.core.model_tester import test_model
+from AIlibrary.core.train import train_model
+from AIlibrary.core.model_io import load_model
 
 if __name__ == "__main__":
     df = pd.read_csv("data/vehicle_data.csv")
 
     train_params = {
-        "model_name": "lightgbm",  # Opciones: random_forest, xgboost, lightgbm, catboost
+        "model_name": "catboost",  # Opciones: random_forest, xgboost, lightgbm, catboost
         "test_size": 0.2,
         "random_state": 42,
         "target_column": "price_in_euro"

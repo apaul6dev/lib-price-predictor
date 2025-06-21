@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-from vehicle_price_predictor.core.preprocessing import Preprocessor
+from AIlibrary.core.preprocessing import Preprocessor
 
 def test_model(data: pd.DataFrame, model_name: str, target_column: str, model) -> pd.Series:
     """

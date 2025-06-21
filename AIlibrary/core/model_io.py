@@ -34,7 +34,7 @@ def load_model(model_name: str):
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"No se encontró el modelo en: {model_path}")
 
-    from vehicle_price_predictor.models.dispatcher import MODEL_DISPATCHER
+    from AIlibrary.models.dispatcher import MODEL_DISPATCHER
     model_class = MODEL_DISPATCHER.get(model_name)
 
     if not model_class:
